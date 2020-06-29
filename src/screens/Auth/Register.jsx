@@ -1,6 +1,11 @@
 import React from 'react';
-import {  TextInput, View } from 'react-native';
-import { StyledButton , styles} from './form-component';
+import {
+  TextInput,
+  View,
+  TouchableHighlight,
+  Platform,
+} from 'react-native';
+import { StyledButton, styles, TouchableClick } from './form-component';
 import AuthSreenBackground from './AuthScreenBackground';
 
 const Register = ({ navigation }) => {
@@ -27,12 +32,23 @@ const Register = ({ navigation }) => {
           placeholderTextColor='white'
           style={styles.input}
         />
-        <View style={styles.button}>
-          <StyledButton
-            title='Login'
-            onPress={() => navigation.navigate('Login')}
-          />
-        </View>
+        {Platform.OS == 'web' ? (
+          <View style={styles.button}>
+            <StyledButton title='Register' onPress={() => {}} />
+          </View>
+        ) : (
+          <TouchableHighlight style={styles.button}>
+            <StyledButton
+              title='Login'
+              onPress={() => navigation.navigate('Register')}
+            />
+          </TouchableHighlight>
+        )}
+        <TouchableClick
+          screen='Login'
+          text='Already have an account? Login'
+          navigation={navigation}
+        />
       </View>
     </AuthSreenBackground>
   );

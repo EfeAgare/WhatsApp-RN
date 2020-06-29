@@ -1,6 +1,12 @@
 import React from 'react';
-import { TextInput, View, TouchableHighlight, Platform } from 'react-native';
-import { StyledButton, styles } from './form-component';
+import {
+  TextInput,
+  View,
+  TouchableHighlight,
+  Platform,
+  Text,
+} from 'react-native';
+import { StyledButton, styles, TouchableClick } from './form-component';
 import AuthSreenBackground from './AuthScreenBackground';
 
 const SignIn = ({ navigation }) => {
@@ -29,6 +35,11 @@ const SignIn = ({ navigation }) => {
             />
           </TouchableHighlight>
         )}
+        <TouchableClick
+          screen='Register'
+          text="Don't have an account? Register"
+          navigation={navigation}
+        />
       </View>
     </AuthSreenBackground>
   );

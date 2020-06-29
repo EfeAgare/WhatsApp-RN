@@ -1,22 +1,15 @@
 import styled from 'styled-components/native';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
 
 export const StyledButton = styled.Button`
   color: white;
 `;
 
 export const styles = StyleSheet.create({
-  label: {
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 20,
-    marginBottom: 60,
-  },
   container: {
     paddingLeft: 30,
     paddingRight: 30,
-    marginTop: 15,
     width: '100%',
     flex: 1,
   },
@@ -39,6 +32,15 @@ export const styles = StyleSheet.create({
     marginRight: 'auto',
     marginTop: 20,
   },
+
+  alternateText: {
+    color: 'white',
+    paddingLeft: 70,
+    paddingRight: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 60,
+  },
 });
 
 export const MyButton = (props) => {
@@ -46,5 +48,15 @@ export const MyButton = (props) => {
     <View style={{ marginTop: 50 }}>
       <StyledButton title='Login' />
     </View>
+  );
+};
+
+export const TouchableClick = (props) => {
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => props.navigation.navigate(`${props.screen}`)}
+    >
+      <Text style={styles.alternateText}>{props.text}</Text>
+    </TouchableWithoutFeedback>
   );
 };
