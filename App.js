@@ -2,7 +2,7 @@ import React from 'react';
 import { AppRegistry } from 'react-native';
 import { ApolloProvider } from '@apollo/react-hooks';
 import makeApolloClient from './src/apollo';
-import { MainNavigation } from './src/screens/navigation/auth-navigation';
+import { MainNavigation } from './src/screens/navigation/navigation';
 
 const client = makeApolloClient();
 
