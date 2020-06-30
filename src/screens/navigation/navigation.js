@@ -70,25 +70,31 @@ function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName='ChatList'
+      animationEnabled
+      swipeEnabled
+      backBehavior
       tabBarOptions={{
         activeTintColor: '#FFF',
-        labelStyle: { fontSize: 14, fontWeight: 'bold' },
+        labelStyle: { fontSize: 14, fontWeight: 'bold', margin: 0, padding: 0 },
         style: {
           backgroundColor: 'rgb(34, 65, 67), rgb(17, 48, 50)',
           paddingTop: Constants.statusBarHeight,
+          paddingBottom: 0,
+          padding: 0,
         },
+        labelPosition: 'below-icon',
         tabStyle: {
+          padding: 0,
           width: 100,
+          margin: 0, //Padding 0 here
         },
-        showIcon: {},
+        showIcon: true,
         iconStyle: {
-          size: 40,
+          width: 30,
+          height: 30,
+          padding: 0, //Padding 0 here
         },
-        // screenOptions: ({ route }) => ({
-        //   tabBarIcon: ({ color, size }) => {
-        //     return <Icons name={'ios-camera'} color={color} size={40} />;
-        //   },
-        // }),
+        tabBarPosition: 'top',
       }}
     >
       <Tab.Screen

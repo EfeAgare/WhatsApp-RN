@@ -29,9 +29,8 @@ const FlatListItem = ({ item }) => {
           <View style={styles.chatInfo}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.content}>{item.lastMessage.content}</Text>
-          </View>
-          <View style={{ flexDirection: 'column' }}>
-            <Text style={{ color: 'gray', paddingTop: 10 }}>
+
+            <Text style={styles.dateContainer}>
               {moment.utc(item.lastMessage.createdAt).local().format('HH:mm A')}
             </Text>
           </View>
@@ -74,5 +73,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 5,
     overflow: 'hidden',
+  },
+  dateContainer: {
+    color: 'gray',
+    paddingTop: 10,
+    position: 'absolute',
+    right: 0,
+    top: 0,
   },
 });
