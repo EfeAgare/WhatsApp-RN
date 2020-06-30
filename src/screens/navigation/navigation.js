@@ -1,15 +1,23 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
-
 import SignIn from '../Auth/SignIn';
 import Register from '../Auth/Register';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import ChatListScreen from '../Chat/ChatListScreen';
 
 const Stack = createStackNavigator();
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'white',
+  },
+};
 
 function CameraScreen() {
   return (
@@ -63,30 +71,42 @@ function MyTabs() {
     <Tab.Navigator
       initialRouteName='ChatList'
       tabBarOptions={{
-        activeTintColor: '#e91e63',
-        labelStyle: { fontSize: 12 },
-        style: { backgroundColor: 'powderblue', marginTop: 60 },
-      }}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          console.log('route.name', route.name);
-          if (route.name === 'Camera') {
-            iconName = focused
-              ? 'ios-information-circle'
-              : 'ios-information-circle-outline';
-          }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={12} color={'#e91e63'} />;
+        activeTintColor: '#FFF',
+        labelStyle: { fontSize: 14, fontWeight: 'bold' },
+        style: {
+          backgroundColor: 'rgb(34, 65, 67), rgb(17, 48, 50)',
+          paddingTop: Constants.statusBarHeight,
         },
-      })}
+        tabStyle: {
+          width: 100,
+        },
+        showIcon: {},
+        iconStyle: {
+          size: 40,
+        },
+        // screenOptions: ({ route }) => ({
+        //   tabBarIcon: ({ color, size }) => {
+        //     return <Icons name={'ios-camera'} color={color} size={40} />;
+        //   },
+        // }),
+      }}
     >
       <Tab.Screen
         name='Camera'
         component={CameraScreen}
-        options={{ tabBarLabel: 'Camera' }}
+        options={{
+          tabBarLabel: '',
+
+          tabBarIcon: ({ focused, color, size }) => {
+            return (
+              <Ionicons
+                name={Platform.OS == 'android' ? 'and-camera' : 'ios-camera'}
+                size={30}
+                color={color}
+              />
+            );
+          },
+        }}
       />
       <Tab.Screen
         name='ChatList'
@@ -94,12 +114,12 @@ function MyTabs() {
         options={{ tabBarLabel: 'Chats' }}
       />
       <Tab.Screen
-        name='Status'
+        name='Home'
         component={StatusScreen}
         options={{ tabBarLabel: 'Status' }}
       />
       <Tab.Screen
-        name='Call'
+        name='Profile'
         component={CallsScreen}
         options={{ tabBarLabel: 'Calls' }}
       />
@@ -109,7 +129,7 @@ function MyTabs() {
 export const MainNavigation = () => {
   const state = false;
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       {state ? (
         <Stack.Navigator>
           <Stack.Screen name='Login' component={SignIn} />

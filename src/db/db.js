@@ -47,3 +47,4 @@ export const chats = [
     lastMessage: messages.find((m) => m.id === '4'),
   },
 ];
+

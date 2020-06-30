@@ -15,3 +15,4 @@ export default function App() {
 }
 
 AppRegistry.registerComponent('MyApplication', () => App);
+

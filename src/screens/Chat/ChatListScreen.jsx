@@ -6,7 +6,7 @@ import { chats } from '../../db/db';
 const FlatListItem = ({ item }) => {
   return (
     <View style={{ flexDirection: 'column', flex: 1 }}>
-      <View style={{ flexDirection: 'row', flex: 1 }}>
+      <View style={{ flexDirection: 'row', flex: 1, marginBottom: 20 }}>
         <Image
           source={{ uri: item.picture }}
           style={{
@@ -23,6 +23,7 @@ const FlatListItem = ({ item }) => {
             flex: 1,
             borderBottomWidth: 1,
             borderBottomColor: '#C0C0C0',
+            paddingRight: 10,
           }}
         >
           <View style={styles.chatInfo}>
@@ -60,16 +61,17 @@ const styles = StyleSheet.create({
   },
   chatInfo: {
     flexDirection: 'column',
-    fontSize: 12,
+    fontSize: 20,
     padding: 10,
     flex: 1,
   },
   name: {
     marginTop: -5,
+    fontSize: 20,
   },
   content: {
     color: 'gray',
-    fontSize: 15,
+    fontSize: 20,
     marginTop: 5,
     overflow: 'hidden',
   },
