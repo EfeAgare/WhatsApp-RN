@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
 import moment from 'moment';
 import { chats } from '../../db/db';
+import FAB from '../Common/FAB';
+import { Icon } from 'react-native-material-ui';
 
 const FlatListItem = ({ item }) => {
   return (
@@ -28,7 +30,17 @@ const FlatListItem = ({ item }) => {
         >
           <View style={styles.chatInfo}>
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.content}>{item.lastMessage.content}</Text>
+            <View style={styles.content}>
+              <Icon
+                name='done-all'
+                color={true ? '#075e54' : '#777'}
+                size={15}
+                style={{ padding: 0 }}
+              />
+              <Text style={{ color: 'gray', paddingLeft: 10 }}>
+                {item.lastMessage.content}
+              </Text>
+            </View>
 
             <Text style={styles.dateContainer}>
               {moment.utc(item.lastMessage.createdAt).local().format('HH:mm A')}
@@ -39,7 +51,7 @@ const FlatListItem = ({ item }) => {
     </View>
   );
 };
-const ChatListScreen = () => {
+const ChatListScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <FlatList
@@ -47,6 +59,7 @@ const ChatListScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <FlatListItem item={item} />}
       />
+      <FAB navigation={navigation} route={route} color={false} />
     </View>
   );
 };
@@ -70,9 +83,11 @@ const styles = StyleSheet.create({
   },
   content: {
     color: 'gray',
-    fontSize: 20,
     marginTop: 5,
     overflow: 'hidden',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
   dateContainer: {
     color: 'gray',

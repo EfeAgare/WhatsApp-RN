@@ -9,8 +9,8 @@ import Register from '../Auth/Register';
 import { View, Text, Platform } from 'react-native';
 import ChatListScreen from '../Chat/ChatListScreen';
 import ChatCameraScreen from '../Camera/ChatCameraScreen';
-
-
+import CallScreen from '../Calls/CallScreen';
+import StatusScreen from '../Status/StatusScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,38 +21,6 @@ const MyTheme = {
     primary: 'white',
   },
 };
-
-
-
-function StatusScreen() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10,
-      }}
-    >
-      <Text>Status!</Text>
-    </View>
-  );
-}
-
-function CallsScreen() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10,
-      }}
-    >
-      <Text>Calls!</Text>
-    </View>
-  );
-}
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -109,13 +77,13 @@ function WhatsAppTab() {
         options={{ tabBarLabel: 'Chats' }}
       />
       <Tab.Screen
-        name='Home'
+        name='Status'
         component={StatusScreen}
         options={{ tabBarLabel: 'Status' }}
       />
       <Tab.Screen
-        name='Profile'
-        component={CallsScreen}
+        name='Calls'
+        component={CallScreen}
         options={{ tabBarLabel: 'Calls' }}
       />
     </Tab.Navigator>
@@ -136,5 +104,3 @@ export const MainNavigation = () => {
     </NavigationContainer>
   );
 };
-
-

@@ -2,7 +2,7 @@ import React from 'react';
 import { AppRegistry, View, Text, StyleSheet, StatusBar } from 'react-native';
 import { ApolloProvider } from '@apollo/react-hooks';
 import makeApolloClient from './src/apollo';
-import { MainNavigation } from './src/screens/navigation/navigation';
+import { MainNavigation } from './src/screens/Navigation/Navigation';
 import Header from './src/screens/Common/Header';
 
 const client = makeApolloClient();
