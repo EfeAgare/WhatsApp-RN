@@ -8,6 +8,9 @@ import SignIn from '../Auth/SignIn';
 import Register from '../Auth/Register';
 import { View, Text, Platform } from 'react-native';
 import ChatListScreen from '../Chat/ChatListScreen';
+import ChatCameraScreen from '../Camera/ChatCameraScreen';
+
+
 
 const Stack = createStackNavigator();
 
@@ -19,20 +22,7 @@ const MyTheme = {
   },
 };
 
-function CameraScreen() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10,
-      }}
-    >
-      <Text>Camera!</Text>
-    </View>
-  );
-}
+
 
 function StatusScreen() {
   return (
@@ -99,14 +89,14 @@ function MyTabs() {
     >
       <Tab.Screen
         name='Camera'
-        component={CameraScreen}
+        component={ChatCameraScreen}
         options={{
           tabBarLabel: '',
 
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons
-                name={Platform.OS == 'android' ? 'and-camera' : 'ios-camera'}
+                name={Platform.OS == 'android' ? 'md-camera' : 'ios-camera'}
                 size={30}
                 color={color}
               />
@@ -147,3 +137,5 @@ export const MainNavigation = () => {
     </NavigationContainer>
   );
 };
+
+
