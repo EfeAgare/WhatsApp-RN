@@ -2,8 +2,8 @@ import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Constants from 'expo-constants';
 import { Ionicons } from '@expo/vector-icons';
+
 import SignIn from '../Auth/SignIn';
 import Register from '../Auth/Register';
 import { View, Text, Platform } from 'react-native';
@@ -56,7 +56,7 @@ function CallsScreen() {
 
 const Tab = createMaterialTopTabNavigator();
 
-function MyTabs() {
+function WhatsAppTab() {
   return (
     <Tab.Navigator
       initialRouteName='ChatList'
@@ -68,7 +68,7 @@ function MyTabs() {
         labelStyle: { fontSize: 14, fontWeight: 'bold', margin: 0, padding: 0 },
         style: {
           backgroundColor: 'rgb(34, 65, 67), rgb(17, 48, 50)',
-          paddingTop: Constants.statusBarHeight,
+          paddingTop: 10,
           paddingBottom: 0,
           padding: 0,
         },
@@ -92,7 +92,6 @@ function MyTabs() {
         component={ChatCameraScreen}
         options={{
           tabBarLabel: '',
-
           tabBarIcon: ({ focused, color, size }) => {
             return (
               <Ionicons
@@ -132,7 +131,7 @@ export const MainNavigation = () => {
           <Stack.Screen name='Register' component={Register} />
         </Stack.Navigator>
       ) : (
-        <MyTabs />
+        <WhatsAppTab />
       )}
     </NavigationContainer>
   );
