@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import FAB from '../Common/FAB';
 
+
 const StatusScreen = ({ navigation, route }) => {
   return (
     <View

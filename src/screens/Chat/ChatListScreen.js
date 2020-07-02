@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import moment from 'moment';
 import { chats } from '../../db/db';
 import FAB from '../Common/FAB';
@@ -7,48 +14,53 @@ import { Icon } from 'react-native-material-ui';
 
 const FlatListItem = ({ item }) => {
   return (
-    <View style={{ flexDirection: 'column', flex: 1 }}>
-      <View style={{ flexDirection: 'row', flex: 1, marginBottom: 20 }}>
-        <Image
-          source={{ uri: item.picture }}
-          style={{
-            width: 50,
-            height: 50,
-            borderRadius: 100 / 2,
-            margin: 5,
-            paddingTop: 10,
-          }}
-        ></Image>
-        <View
-          style={{
-            flexDirection: 'row',
-            flex: 1,
-            borderBottomWidth: 1,
-            borderBottomColor: '#C0C0C0',
-            paddingRight: 10,
-          }}
-        >
-          <View style={styles.chatInfo}>
-            <Text style={styles.name}>{item.name}</Text>
-            <View style={styles.content}>
-              <Icon
-                name='done-all'
-                color={true ? '#075e54' : '#777'}
-                size={15}
-                style={{ padding: 0 }}
-              />
-              <Text style={{ color: 'gray', paddingLeft: 10 }}>
-                {item.lastMessage.content}
+    <TouchableOpacity onPress={() => {}}>
+      <View style={{ flexDirection: 'column', flex: 1 }}>
+        <View style={{ flexDirection: 'row', flex: 1, marginBottom: 20 }}>
+          <Image
+            source={{ uri: item.picture }}
+            style={{
+              width: 50,
+              height: 50,
+              borderRadius: 50,
+              margin: 5,
+              paddingTop: 10,
+            }}
+          ></Image>
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 1,
+              borderBottomWidth: 1,
+              borderBottomColor: '#C0C0C0',
+              paddingRight: 10,
+            }}
+          >
+            <View style={styles.chatInfo}>
+              <Text style={styles.name}>{item.name}</Text>
+              <View style={styles.content}>
+                <Icon
+                  name='done-all'
+                  color={true ? '#22A7F0' : '#777'}
+                  size={15}
+                  style={{ padding: 0 }}
+                />
+                <Text style={{ color: 'gray', paddingLeft: 10 }}>
+                  {item.lastMessage.content}
+                </Text>
+              </View>
+
+              <Text style={styles.dateContainer}>
+                {moment
+                  .utc(item.lastMessage.createdAt)
+                  .local()
+                  .format('HH:mm A')}
               </Text>
             </View>
-
-            <Text style={styles.dateContainer}>
-              {moment.utc(item.lastMessage.createdAt).local().format('HH:mm A')}
-            </Text>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 const ChatListScreen = ({ navigation, route }) => {

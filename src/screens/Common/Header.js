@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
+import MenuDropdown from './MenuDropdown';
 
 const Header = () => {
   return (
@@ -13,7 +14,7 @@ const Header = () => {
           <Icon name='search' size={23} color='white' />
         </View>
         <View>
-          <Icon name='more-vert' size={23} color='white' />
+          <MenuDropdown />
         </View>
       </View>
     </View>
