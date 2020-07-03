@@ -1,21 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import FAB from '../Common/FAB';
-
+import StoriesPage from '../Stories/Stories';
 
 const StatusScreen = ({ navigation, route }) => {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 10,
-      }}
-    >
-      <Text>Status Screen</Text>
-      <FAB navigation={navigation} route={route} color={true} navigateTo="WriteStatus"/>
-      <FAB navigation={navigation} route={route} color={false} navigateTo="UploadStatus"/>
+    <View>
+       
+      <StoriesPage navigation={navigation} />
+      <FAB
+        navigation={navigation}
+        route={route}
+        color={true}
+        navigateTo='StatusInput'
+      />
+      <FAB
+        navigation={navigation}
+        route={route}
+        color={false}
+        navigateTo='StatusUpload'
+      />
     </View>
   );
 };

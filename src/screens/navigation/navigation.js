@@ -13,6 +13,8 @@ import CallScreen from '../Calls/CallScreen';
 import StatusScreen from '../Status/StatusScreen';
 import ContactScreen from '../Contacts/ContactScreen';
 import Header from '../Common/Header';
+import StatusInput from '../Status/StatusInput';
+import StatusUpload from '../Status/StatusUpload';
 
 const Stack = createStackNavigator();
 
@@ -141,6 +143,29 @@ export const MainNavigation = () => {
                 color: '#fff',
               },
               headerTitle: (props) => <ContactTitle {...props} />,
+            }}
+          />
+          <Stack.Screen
+            name='StatusInput'
+            component={StatusInput}
+            options={{
+              title: '',
+              headerTransparent: true,
+            }}
+          />
+          <Stack.Screen
+            name='StatusUpload'
+            component={StatusUpload}
+            
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: 'rgb(34, 65, 67), rgb(17, 48, 50)',
+              },
+              headerTitleStyle: {
+                color: '#fff',
+              },
+              headerBackTitle: ''
             }}
           />
         </Stack.Navigator>
