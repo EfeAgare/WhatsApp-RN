@@ -3,13 +3,13 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   FlatList,
+  Image,
 } from 'react-native';
-import FAB from '../Common/FAB';
+
 import Axios from 'axios';
-import { WHATSAPP_CALLS_API } from '../../db/api';
+import { WHATSAPP_CONTACTS_API } from '../../db/api';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const FlatListItem = ({ person }) => {
@@ -28,7 +28,7 @@ const FlatListItem = ({ person }) => {
             style={{
               width: 50,
               height: 50,
-              borderRadius: 100 / 2,
+              borderRadius: 50,
               margin: 5,
               paddingTop: 10,
             }}
@@ -45,16 +45,8 @@ const FlatListItem = ({ person }) => {
             <View style={styles.chatInfo}>
               <Text style={styles.name}>{person.first_name}</Text>
               <View style={styles.content}>
-                <Icon
-                  name={person.missed ? 'call-missed' : 'call-received'}
-                  size={15}
-                  color={person.missed ? '#ed788b' : '#075e54'}
-                />
-                <Text style={{ color: 'gray', paddingLeft: 10 }}>
-                  {person.date} {person.time}
-                </Text>
+                <Text style={{ color: 'gray' }}>{person.message}</Text>
               </View>
-
               <Icon
                 name='phone'
                 color='#075e54'
@@ -69,16 +61,16 @@ const FlatListItem = ({ person }) => {
   );
 };
 
-const CallScreen = ({ navigation, route }) => {
-  const [callData, setCallData] = useState([]);
+const ContactScreen = ({ route, navigation }) => {
+  const [contactData, setContactData] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
   const receiveData = () => {
-    Axios.get(WHATSAPP_CALLS_API)
+    Axios.get(WHATSAPP_CONTACTS_API)
       .then((response) => {
-        setCallData(response.data);
+        setContactData(response.data);
         setLoaded(true);
-        // console.log(response.data);
+        // console.log('response.data', response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -99,24 +91,19 @@ const CallScreen = ({ navigation, route }) => {
       </View>
     );
   }
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={callData}
+        data={contactData}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <FlatListItem person={item} />}
-      />
-      <FAB
-        navigation={navigation}
-        route={route}
-        color={false}
-        navigateTo='Contact'
+        renderItem={({ item }) => <FlatListItem person={item} route={route} />}
       />
     </View>
   );
 };
 
-export default CallScreen;
+export default ContactScreen;
 
 const styles = StyleSheet.create({
   container: {

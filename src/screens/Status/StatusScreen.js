@@ -14,8 +14,8 @@ const StatusScreen = ({ navigation, route }) => {
       }}
     >
       <Text>Status Screen</Text>
-      <FAB navigation={navigation} route={route} color={true}/>
-      <FAB navigation={navigation} route={route} color={false}/>
+      <FAB navigation={navigation} route={route} color={true} navigateTo="WriteStatus"/>
+      <FAB navigation={navigation} route={route} color={false} navigateTo="UploadStatus"/>
     </View>
   );
 };
@@ -23,3 +23,19 @@ const StatusScreen = ({ navigation, route }) => {
 export default StatusScreen;
 
 const styles = StyleSheet.create({});
+
+// function HomeScreen({ navigation }) {
+//   const [count, setCount] = React.useState(0);
+
+//   React.useLayoutEffect(() => {
+//     navigation.setOptions({
+//       headerRight: () => (
+//         <Button onPress={() => setCount((c) => c + 1)} title='Update count' />
+//       ),
+//     });
+//   }, [navigation]);
+
+//   return <Text>Count: {count}</Text>;
+// }
+
+// export default HomeScreen;

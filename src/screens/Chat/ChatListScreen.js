@@ -71,7 +71,7 @@ const ChatListScreen = ({ navigation, route }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <FlatListItem item={item} />}
       />
-      <FAB navigation={navigation} route={route} color={false} />
+      <FAB navigation={navigation} route={route} color={false} navigateTo="Contact" />
     </View>
   );
 };

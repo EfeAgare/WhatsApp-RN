@@ -2,8 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Alert, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const FAB = ({ navigation, route, color }) => {
-
+const FAB = ({ navigation, route, color, navigateTo }) => {
   const RenderFAB = () => {
     if (route.name == 'ChatList') {
       return <Icon name='message' size={23} color='white' />;
@@ -15,12 +14,18 @@ const FAB = ({ navigation, route, color }) => {
   };
   return (
     <React.Fragment>
-      <TouchableOpacity style={styles.TouchableOpacityStyle}>
+      <TouchableOpacity
+        style={styles.TouchableOpacityStyle}
+        onPress={() => navigation.navigate(navigateTo)}
+      >
         <RenderFAB />
       </TouchableOpacity>
       {color && (
-        <TouchableOpacity style={styles.TouchableOpacityStyleStatus}>
-          <Icon name='pencil' size={23} color="black" type='octicon' />
+        <TouchableOpacity
+          style={styles.TouchableOpacityStyleStatus}
+          onPress={() => navigation.navigate(navigateTo)}
+        >
+          <Icon name='pencil' size={23} color='black' type='octicon' />
         </TouchableOpacity>
       )}
     </React.Fragment>
