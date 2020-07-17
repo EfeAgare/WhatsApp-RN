@@ -1,10 +1,23 @@
 import styled from 'styled-components/native';
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Text, Platform } from 'react-native';
 
 export const StyledButton = styled.Button`
-  color: white;
+  color: #fff;
 `;
+
+
+export const buttonStyle =  {
+  height: 40,
+  width: '50%',
+  borderRadius: 10,
+  backgroundColor: '#4CAF50',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginTop: 20,
+  justifyContent: 'center',
+  alignItems: 'center',
+}
 
 export const styles = StyleSheet.create({
   container: {
@@ -23,25 +36,21 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
   },
-  button: {
-    height: 40,
-    width: '100%',
-    borderRadius: 10,
-    backgroundColor: Platform.OS == 'web' ? 'rgb(33, 150, 243)' : 'yellow',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 20,
-  },
+  button: buttonStyle,
 
-  alternateText: {
-    color: 'white',
+  policyText: {
     paddingLeft: 70,
     paddingRight: 70,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 60,
+  },
+  agreementContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: "center"
   },
 });
+
 
 export const MyButton = (props) => {
   return (
