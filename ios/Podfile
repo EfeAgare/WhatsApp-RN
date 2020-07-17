@@ -5,6 +5,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 target 'whatsapp' do
   rnPrefix = "../node_modules/react-native"
+  permissions_path = '../node_modules/react-native-permissions/ios'
 
   # React Native and its dependencies
   pod 'FBLazyVector', :path => "#{rnPrefix}/Libraries/FBLazyVector"
@@ -40,6 +41,7 @@ target 'whatsapp' do
     'FaceDetectorMLKit',
     'BarcodeDetectorMLKit'
   ]
+  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts.podspec"
 
   # Other native modules
 
@@ -50,5 +52,6 @@ target 'whatsapp' do
   use_native_modules!
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+  pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
 end
