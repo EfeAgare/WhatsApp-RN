@@ -5,17 +5,17 @@ import { StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
 const MyStory = (props) => {
-  const {
-    user: { image, first_name, time, id, date },
-    hasStories,
-    allUsers,
-  } = props;
+
+  
+  const { user, hasStories, allUsers } = props;
+
+  const { image, first_name, time, id, date } = user;
 
   return (
     <TouchableOpacity
       onPress={() =>
         props.navigation.navigate('StoryScreen', {
-          uid: id,
+          id: id,
           user,
           allUsers,
         })
@@ -39,7 +39,9 @@ const MyStory = (props) => {
           <Text style={styles.title} numberOfLines={1}>
             {first_name}
           </Text>
-          <Text style={styles.time}>{date} {time}</Text>
+          <Text style={styles.time}>
+            {date} {time}
+          </Text>
         </View>
         <View style={styles.icon}>
           <Ionicons name='md-more' size={32} color='#c31432' />
@@ -61,8 +63,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   imageContainer: {
-    // backgroundColor: "#000"
-
     padding: 2.5,
     borderRadius: 100,
     marginRight: 5,
