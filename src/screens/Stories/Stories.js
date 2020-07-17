@@ -5,7 +5,7 @@ import MyStory from './MyStory';
 import HrWithText from '../hrWithText/index';
 import OtherUsersStory from './OtherUsersStories';
 import Axios from 'axios';
-import { dateIsWithIin24Hours, dateFormatter } from '../Common//Helper';
+import { dateIsWithIin24Hours } from '../Common//Helper';
 import { WHATSAPP_CONTACTS_API } from '../../db/api';
 
 const StoriesPage = (props) => {
@@ -15,22 +15,16 @@ const StoriesPage = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const receiveData = () => {
-    Axios.get(WHATSAPP_CONTACTS_API)
-      .then((response) => {
-        let tempUser = response.data;
-        const user = tempUser.find((user) => user.id === 1);
-        const allUsers = tempUser.filter((user) => user.id !== 1);
-        const filterUsers = allUsers.filter((user) =>
-          dateIsWithIin24Hours(user.date)
-        );
-        setFilterUser(filterUsers);
-        setUser(user);
-        setAllUser(allUsers);
-        setIsLoaded(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    let tempUser = WHATSAPP_CONTACTS_API;
+    const user = tempUser.find((user) => user.id === 1);
+    const allUsers = tempUser.filter((user) => user.id !== 1);
+    const filterUsers = allUsers.filter((user) =>
+      dateIsWithIin24Hours(user.date)
+    );
+    setFilterUser(filterUsers);
+    setUser(user);
+    setAllUser(allUsers);
+    setIsLoaded(true);
   };
 
   useEffect(() => {
@@ -63,8 +57,9 @@ const StoriesPage = (props) => {
                 key={user.id}
                 onPress={() =>
                   props.navigation.navigate('StoryScreen', {
-                    uid: user.id,
+                    id: user.id,
                     user,
+                    allUsers,
                   })
                 }
               >

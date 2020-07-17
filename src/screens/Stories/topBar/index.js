@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dimensions,
   View,
@@ -9,92 +9,70 @@ import {
 
 const { width, height } = Dimensions.get('window');
 
-export default class TopBar extends PureComponent {
-  state = {
-    noOfProgress: 0,
-  };
+const TopBar = ({ index, totalStories, isLast }) => {
+  const [noOfProgress, setNoOfProgress] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(index);
+  const [loaded, setLoaded] = useState(false);
 
-  componentDidMount() {
-    this.updateNoOfProgress();
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    return {
-      currentIndex: nextProps.index,
-      noOfStories: nextProps.totalStories,
-    };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.index !== this.props.index) {
-      if (this.interVal) clearInterval(this.interVal);
-
-      console.log(
-        'TCL: TopBar -> componentDidUpdate -> this.props.isLast',
-        this.props.isLast
-      );
-
-      this.updateNoOfProgress();
+  useEffect(() => {
+    if (!loaded) {
+      updateNoOfProgress();
+      setLoaded(true)
     }
-  }
+    return () => {};
+  }, [loaded, index, totalStories, isLast]);
 
-  updateNoOfProgress = () => {
-    // const { duration } = this.props;
+  const updateNoOfProgress = () => {
     const duration = 60;
-    this.setState({ noOfProgress: 0 });
-    this.interVal = setInterval(() => {
-      const { noOfProgress } = this.state;
+    setNoOfProgress(0);
+    const interVal = setInterval(() => {
       if (noOfProgress === 100) {
-        clearInterval(this.interVal);
+        clearInterval(interVal);
       } else {
-        this.setState((pre) => ({
-          ...pre,
-          noOfProgress: pre.noOfProgress + 1,
-        }));
+        setNoOfProgress(noOfProgress + 1);
       }
     }, duration);
   };
-  render() {
-    const { currentIndex, noOfStories, noOfProgress } = this.state;
-    return (
-      <View style={styles.container}>
-        {[...Array(noOfStories)].map((story, index) => (
-          <View
-            style={[
-              styles.single,
-              { width: Math.floor(width / noOfStories) - noOfStories },
-            ]}
-            key={index}
-          >
-            <ProgressBarAndroid
-              styleAttr='Horizontal'
-              indeterminate={false}
-              progress={
-                !(index >= currentIndex)
-                  ? 1
-                  : index === currentIndex
-                  ? noOfProgress / 100
-                  : 0
-              }
-              style={styles.bar}
-              color='#fff'
-            />
-          </View>
-        ))}
-      </View>
-    );
-  }
-}
+
+  return (
+    <View style={styles.container}>
+      {[...Array(totalStories).keys()].map((story, index) => (
+        <View
+          style={[
+            styles.single,
+            { width: Math.floor(width / totalStories) - totalStories },
+          ]}
+          key={index}
+        >
+          <ProgressBarAndroid
+            styleAttr='Horizontal'
+            indeterminate={false}
+            // progress={
+            //   !(index >= currentIndex)
+            //     ? 1
+            //     : index === currentIndex
+            //     ? noOfProgress / 100
+            //     : 0
+            // }
+            // style={styles.bar}
+            color='#FFF'
+          />
+        </View>
+      ))}
+    </View>
+  );
+};
+
+export default TopBar;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: StatusBar.currentHeight,
     width,
-    height: height * 0.03,
-    paddingTop: height * 0.01,
+    paddingVertical: 2,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
+    backgroundColor: '#FFF'
   },
-  bar: { transform: [{ scaleX: 1.0 }, { scaleY: 1 }], height: height * 0.01 },
+  bar: { transform: [{ scaleX: 1.0 }, { scaleY: 1 }], height: height * 0.02 },
   single: { marginLeft: 1 },
 });
