@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ProgressBarAndroid,
 } from 'react-native';
 import FAB from '../Common/FAB';
 import Axios from 'axios';
@@ -14,58 +15,62 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const FlatListItem = ({ person }) => {
   return (
-    <TouchableOpacity onPress={() => {}}>
-      <View
-        style={{
-          flexDirection: 'column',
-          flex: 1,
-          paddingHorizontal: 10,
-        }}
-      >
-        <View style={{ flexDirection: 'row', flex: 1, marginBottom: 20 }}>
-          <Image
-            source={{ uri: person.image }}
-            style={{
-              width: 50,
-              height: 50,
-              borderRadius: 100 / 2,
-              margin: 5,
-              paddingTop: 10,
-            }}
-          ></Image>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 1,
-              borderBottomWidth: 1,
-              borderBottomColor: '#C0C0C0',
-              paddingRight: 10,
-            }}
-          >
-            <View style={styles.chatInfo}>
-              <Text style={styles.name}>{person.first_name}</Text>
-              <View style={styles.content}>
-                <Icon
-                  name={person.missed ? 'call-missed' : 'call-received'}
-                  size={15}
-                  color={person.missed ? '#ed788b' : '#075e54'}
-                />
-                <Text style={{ color: 'gray', paddingLeft: 10 }}>
-                  {person.date} {person.time}
-                </Text>
-              </View>
+    // <TouchableOpacity onPress={() => {}}>
+    //   <View
+    //     style={{
+    //       flexDirection: 'column',
+    //       flex: 1,
+    //       paddingHorizontal: 10,
+    //     }}
+    //   >
+    //     <View style={{ flexDirection: 'row', flex: 1, marginBottom: 20 }}>
+    //       <Image
+    //         source={{ uri: person.image }}
+    //         style={{
+    //           width: 50,
+    //           height: 50,
+    //           borderRadius: 100 / 2,
+    //           margin: 5,
+    //           paddingTop: 10,
+    //         }}
+    //       ></Image>
+    //       <View
+    //         style={{
+    //           flexDirection: 'row',
+    //           flex: 1,
+    //           borderBottomWidth: 1,
+    //           borderBottomColor: '#C0C0C0',
+    //           paddingRight: 10,
+    //         }}
+    //       >
+    //         <View style={styles.chatInfo}>
+    //           <Text style={styles.name}>{person.first_name}</Text>
+    //           <View style={styles.content}>
+    //             <Icon
+    //               name={person.missed ? 'call-missed' : 'call-received'}
+    //               size={15}
+    //               color={person.missed ? '#ed788b' : '#075e54'}
+    //             />
+    //             <Text style={{ color: 'gray', paddingLeft: 10 }}>
+    //               {person.date} {person.time}
+    //             </Text>
+    //           </View>
 
-              <Icon
-                name='phone'
-                color='#075e54'
-                size={23}
-                style={styles.dateContainer}
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
+    //           <Icon
+    //             name='phone'
+    //             color='#075e54'
+    //             size={23}
+    //             style={styles.dateContainer}
+    //           />
+    //         </View>
+    //       </View>
+    //     </View>
+    <ProgressBarAndroid
+    styleAttr="Horizontal"
+    progress={0.5}
+  />
+      /* </View>
+    </TouchableOpacity> */
   );
 };
 
@@ -74,15 +79,9 @@ const CallScreen = ({ navigation, route }) => {
   const [loaded, setLoaded] = useState(false);
 
   const receiveData = () => {
-    Axios.get(WHATSAPP_CALLS_API)
-      .then((response) => {
-        setCallData(response.data);
-        setLoaded(true);
-        // console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setCallData(WHATSAPP_CALLS_API);
+    setLoaded(true);
+    // console.log(response.data);
   };
 
   useEffect(() => {
@@ -122,6 +121,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chatInfo: {
     flexDirection: 'column',
