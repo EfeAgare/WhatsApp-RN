@@ -5,15 +5,12 @@ import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { Icon } from 'react-native-elements';
 
 const MenuDropdown = () => {
-  // const route = useRoute();
 
   const menu = useRef();
 
   const hideMenu = () => menu.current.hide();
 
   const showMenu = () => menu.current.show();
-
-  // console.log(route);
 
   return (
     <View style={styles.container}>
