@@ -4,8 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
-import SignIn from '../Auth/SignIn';
-import Register from '../Auth/Register';
+import Login from '../Auth/Login';
+import Welcome from '../Auth/Welcome';
 import { Platform, StatusBar, View, Text } from 'react-native';
 import ChatListScreen from '../Chat/ChatListScreen';
 import ChatCameraScreen from '../Camera/ChatCameraScreen';
@@ -15,6 +15,7 @@ import ContactScreen from '../Contacts/ContactScreen';
 import Header from '../Common/Header';
 import StatusInput from '../Status/StatusInput';
 import StatusUpload from '../Status/StatusUpload';
+import StoryScreen from '../Stories/StoryScreen';
 
 const Stack = createStackNavigator();
 
@@ -113,13 +114,13 @@ const ContactTitle = () => {
 };
 
 export const MainNavigation = () => {
-  const state = false;
+  const state = true;
   return (
     <NavigationContainer theme={MyTheme}>
       {state ? (
         <Stack.Navigator>
-          <Stack.Screen name='Login' component={SignIn} />
-          <Stack.Screen name='Register' component={Register} />
+          <Stack.Screen name='Welcome' component={Welcome} />
+          <Stack.Screen name='Login' component={Login} />
         </Stack.Navigator>
       ) : (
         <Stack.Navigator>
@@ -156,7 +157,6 @@ export const MainNavigation = () => {
           <Stack.Screen
             name='StatusUpload'
             component={StatusUpload}
-            
             options={{
               title: '',
               headerStyle: {
@@ -165,7 +165,21 @@ export const MainNavigation = () => {
               headerTitleStyle: {
                 color: '#fff',
               },
-              headerBackTitle: ''
+              headerBackTitle: '',
+            }}
+          />
+
+          <Stack.Screen
+            name='StoryScreen'
+            component={StoryScreen}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: 'rgb(34, 65, 67), rgb(17, 48, 50)',
+              },
+              headerTitleStyle: {
+                color: '#fff',
+              },
             }}
           />
         </Stack.Navigator>
