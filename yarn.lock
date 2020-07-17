@@ -6663,6 +6663,11 @@ react-native-camera@^3.31.0:
   dependencies:
     prop-types "^15.6.2"
 
+react-native-contacts@^5.2.3:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-5.2.3.tgz#d0192d695fef3cf590a39f56d817c861c4ae6bc0"
+  integrity sha512-dD//eKxZ3Id8yzewjJOzXUC1qeB9RXNEJ/JemAHUx6YsJ0t13lYfR+h71TtSMklMAoOchVtw9Qv6FRxwaCBb2Q==
+
 react-native-elements@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-2.0.4.tgz#ea5a6bb34cabd48dcd6c6546e4737d2075e40ee3"
@@ -6692,6 +6697,11 @@ react-native-image-picker@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-2.3.1.tgz#1977b65e07793d2c0b2d1976fb675c5f75ad7f11"
   integrity sha512-c/a2h7/T7yBo5KlNQhcSn4xf4+6Li6LfJ59+GZT1ZzzWrj/6X8DiJ/TJBOlOZMC5tJriZKuRkWSsr74k6z+brw==
+
+react-native-intl-phone-input@^1.2.22:
+  version "1.2.22"
+  resolved "https://registry.yarnpkg.com/react-native-intl-phone-input/-/react-native-intl-phone-input-1.2.22.tgz#f3b8c012c06a724c7c339bf195b7c1decf053630"
+  integrity sha512-+aLAzpJKQyuzQqy9YA6XmdMCFToahIt+mBOAnT2ELcTuTo+O9SH5u8ISt7I6XUSfFhSFvqXhYQZ70sNH/D+J3A==
 
 react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
@@ -6725,6 +6735,11 @@ react-native-material-ui@^1.30.1:
     lodash.merge "^4.0.0"
     prop-types "^15.5.10"
     react-native-material-design-styles "^0.2.6"
+
+react-native-permissions@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.1.5.tgz#6cfc4f1ab1590f4952299b7cdc9698525ad540e0"
+  integrity sha512-b9KO/4UEV9qddl+kcSybmdk8nlAifclSDBR2rSvc5KZM06vIaJWJNIzK2ZwPXqDQ5yD3CJLuKTRj7Fz+jM9qyQ==
 
 react-native-ratings@^7.2.0:
   version "7.2.0"
