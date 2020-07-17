@@ -8,7 +8,6 @@ import {
   Image,
 } from 'react-native';
 
-import Axios from 'axios';
 import { WHATSAPP_CONTACTS_API } from '../../db/api';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -66,15 +65,9 @@ const ContactScreen = ({ route, navigation }) => {
   const [loaded, setLoaded] = useState(false);
 
   const receiveData = () => {
-    Axios.get(WHATSAPP_CONTACTS_API)
-      .then((response) => {
-        setContactData(response.data);
-        setLoaded(true);
-        // console.log('response.data', response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setContactData(WHATSAPP_CONTACTS_API);
+    setLoaded(true);
+    // console.log('response.data', response.data);
   };
 
   useEffect(() => {
