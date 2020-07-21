@@ -54,4 +54,6 @@ target 'whatsapp' do
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
+  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
+
 end

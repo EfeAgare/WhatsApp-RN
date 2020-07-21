@@ -5,34 +5,61 @@ import {
   TextInput,
   Text,
   TouchableHighlight,
+  Alert,
 } from 'react-native';
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import { request, PERMISSIONS } from 'react-native-permissions';
 import { buttonStyle } from './form-component';
+import Countries from './Countries';
 
 const BLUE = '#428AF8';
 const LIGHT_GRAY = '#D3D3D3';
 
 const Login = ({ navigation }) => {
-  const [formState, setState] = useState({
-    isFocused: false,
-  });
+  const [username, setUsername] = useState('');
+  const [aboutMe, setAboutMe] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [dialCode, setDialCode] = useState('');
+  const [phoneNumberIsVerified, setPhoneNumberIsVerified] = useState(null);
 
   const [loadedIOS, setLoadedIOS] = useState(false);
   const [loadedAndroid, setLoadedAndroid] = useState(false);
 
-  const onChangeText = ({
-    dialCode,
-    unmaskedPhoneNumber,
-    phoneNumber,
-    isVerified,
-  }) => {
-    console.log('dialCode', dialCode);
-    console.log('unmaskedPhoneNumber', unmaskedPhoneNumber);
-    console.log('phoneNumber', phoneNumber);
-    console.log('isVerified', isVerified);
+  const onChangeText = ({ dialCode, unmaskedPhoneNumber, isVerified }) => {
+    setPhoneNumber(unmaskedPhoneNumber);
+    setPhoneNumberIsVerified(isVerified);
+    setDialCode(dialCode);
   };
 
+  const handleSubmit = () => {
+    if (phoneNumber.length == 0) {
+      return;
+    }
+
+    if (!phoneNumberIsVerified) {
+      const flag =
+        Countries.filter((country) => country.dialCode === dialCode)[0] ||
+        Countries.filter((obj) => obj.code === 'NG')[0];
+      Alert.alert(
+        'Wrong Phone Number for',
+        `${flag.en}`,
+        [{ text: 'OK', onPress: () => {} }],
+        { cancelable: false }
+      );
+      return;
+    }
+
+    if (
+      phoneNumber.length < 11 ||
+      aboutMe.length == 0 ||
+      username.length == 0
+    ) {
+      return;
+    }
+    console.log('formstate.nphoneNumber', phoneNumber);
+    console.log('formstate.AboutMe', aboutMe);
+    console.log('name', username);
+  };
 
   useEffect(() => {
     if (!loadedAndroid) {
@@ -70,18 +97,24 @@ const Login = ({ navigation }) => {
       />
 
       <TextInput
-        selectionColor={BLUE}
-        underlineColorAndroid={formState.isFocused ? BLUE : LIGHT_GRAY}
         blurOnSubmit
-        placeholder='About me'
-        clearTextOnFocus
-        maxLength={140}
+        placeholder='Username'
+        maxLength={50}
+        name='userName'
+        onChangeText={(text) => setUsername(text)}
         style={styles.textInput}
       />
-      <TouchableHighlight
-        style={styles.button}
-        onPress={() => navigation.navigate('WhatsAppTab')}
-      >
+
+      <TextInput
+        blurOnSubmit
+        placeholder='About me'
+        maxLength={140}
+        name='aboutMe'
+        onChangeText={(text) => setAboutMe(text)}
+        style={styles.textInput}
+      />
+
+      <TouchableHighlight style={styles.button} onPress={() => handleSubmit()}>
         <Text
           style={{ textAlignVertical: 'center', color: '#fff', fontSize: 20 }}
         >
@@ -94,7 +127,7 @@ const Login = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 200,
+    marginTop: 150,
     paddingHorizontal: 30,
   },
 
