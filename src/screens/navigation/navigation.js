@@ -19,7 +19,7 @@ import StoryScreen from '../Stories/StoryScreen';
 
 const Stack = createStackNavigator();
 
-const MyTheme = {
+export const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
@@ -117,12 +117,6 @@ export const MainNavigation = () => {
   const state = true;
   return (
     <NavigationContainer theme={MyTheme}>
-      {state ? (
-        <Stack.Navigator>
-          <Stack.Screen name='Welcome' component={Welcome} />
-          <Stack.Screen name='Login' component={Login} />
-        </Stack.Navigator>
-      ) : (
         <Stack.Navigator>
           <Stack.Screen
             name='WhatsAppTab'
@@ -183,7 +177,6 @@ export const MainNavigation = () => {
             }}
           />
         </Stack.Navigator>
-      )}
     </NavigationContainer>
   );
 };

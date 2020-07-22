@@ -12,20 +12,6 @@ const makeApolloClient = () => {
     uri: 'http://localhost:4000/graphql',
   });
 
-  // console.log('credentials hmmm', credentials);
-  // Keychain.getGenericPassword()
-  //   .then((data) => {
-  //     credentials = data;
-
-  //     console.log('credentials ok m', credentials);
-  //     return credentials;
-  //   })
-  //   .catch((error) => {
-  //     console.log("Keychain couldn't be accessed! Maybe no value set?", error);
-  //   });
-
-  // console.log('credentials hmmm', credentials);
-  // Create a WebSocket link:
   const wsLink = new WebSocketLink({
     uri: `ws://localhost:4000/graphql`,
     options: {
@@ -41,8 +27,6 @@ const makeApolloClient = () => {
       'x-token': `${credentials?.password}`,
     },
   }));
-
-  // const httpLinkWithMiddleware = middlewareLink.concat(httpLink);
 
   // using the ability to split links, you can send data to each link
   // depending on what kind of operation is being sent
