@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import IntlPhoneInput from 'react-native-intl-phone-input';
 import { request, PERMISSIONS } from 'react-native-permissions';
+import { useMutation } from '@apollo/react-hooks';
 import { buttonStyle } from './form-component';
 import Countries from './Countries';
-
-const BLUE = '#428AF8';
-const LIGHT_GRAY = '#D3D3D3';
+import signInMutation from '../../graphQl/mutations/signIn.mutation';
+import * as Keychain from 'react-native-keychain';
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -31,7 +31,28 @@ const Login = ({ navigation }) => {
     setDialCode(dialCode);
   };
 
-  const handleSubmit = () => {
+  setToken = async (token, user) => {
+    const username = user.phonenumber;
+    const password = token;
+    console.log('user', user);
+    await Keychain.setGenericPassword(username, password);
+  };
+
+  const [signIn] = useMutation(signInMutation, {
+    onCompleted({ signIn: { token, user } }) {
+      Keychain.resetGenericPassword();
+      setToken(token, user);
+    },
+    onError(error) {
+      console.log(error.message);
+    },
+  });
+
+  const maySignIn = useCallback(() => {
+    return !!(username && aboutMe && phoneNumber);
+  }, [username, aboutMe, phoneNumber]);
+
+  const handleSubmit = useCallback(() => {
     if (phoneNumber.length == 0) {
       return;
     }
@@ -56,10 +77,8 @@ const Login = ({ navigation }) => {
     ) {
       return;
     }
-    console.log('formstate.nphoneNumber', phoneNumber);
-    console.log('formstate.AboutMe', aboutMe);
-    console.log('name', username);
-  };
+    signIn({ variables: { username, aboutMe, phoneNumber } });
+  }, [username, aboutMe, phoneNumber, signIn, phoneNumberIsVerified]);
 
   useEffect(() => {
     if (!loadedAndroid) {
@@ -113,8 +132,12 @@ const Login = ({ navigation }) => {
         onChangeText={(text) => setAboutMe(text)}
         style={styles.textInput}
       />
-
-      <TouchableHighlight style={styles.button} onPress={() => handleSubmit()}>
+      {console.log(!maySignIn())}
+      <TouchableHighlight
+        style={!maySignIn() ? styles.disableButton : styles.button}
+        disabled={!maySignIn()}
+        onPress={() => handleSubmit()}
+      >
         <Text
           style={{ textAlignVertical: 'center', color: '#fff', fontSize: 20 }}
         >
@@ -151,5 +174,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#4CAF50',
   },
   button: buttonStyle,
+  disableButton: {
+    height: 40,
+    width: '50%',
+    borderRadius: 10,
+    backgroundColor: '#808080',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 export default Login;
