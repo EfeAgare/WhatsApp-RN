@@ -2,21 +2,25 @@ export const messages = [
   {
     id: '1',
     content: 'You on your way?',
+    read: true,
     createdAt: new Date(Date.now() - 60 * 1000 * 1000),
   },
   {
     id: '2',
     content: "Hey, it's me",
+    read: true,
     createdAt: new Date(Date.now() - 2 * 60 * 1000 * 1000),
   },
   {
     id: '3',
     content: 'I should buy a boat',
+    read: false,
     createdAt: new Date(Date.now() - 24 * 60 * 1000 * 1000),
   },
   {
     id: '4',
     content: 'This is wicked good ice cream.',
+    read: false,
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 1000 * 1000),
   },
 ];

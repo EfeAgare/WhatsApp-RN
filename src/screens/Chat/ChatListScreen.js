@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,9 +8,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import moment from 'moment';
-import { chats } from '../../db/db';
 import FAB from '../Common/FAB';
 import { Icon } from 'react-native-material-ui';
+import { useQuery } from '@apollo/react-hooks';
+import { getChatsQuery } from '../../graphQl/queries/chats.query';
+const _ = require('lodash');
 
 const FlatListItem = ({ item }) => {
   return (
@@ -41,7 +43,7 @@ const FlatListItem = ({ item }) => {
               <View style={styles.content}>
                 <Icon
                   name='done-all'
-                  color={true ? '#22A7F0' : '#777'}
+                  color={item.lastMessage.read ? '#22A7F0' : '#777'}
                   size={15}
                   style={{ padding: 0 }}
                 />
@@ -64,6 +66,45 @@ const FlatListItem = ({ item }) => {
   );
 };
 const ChatListScreen = ({ navigation, route }) => {
+
+  const { data, loading, refetch } = useQuery(getChatsQuery, {
+    fetchPolicy: 'catch-and-network',
+  });
+
+  console.log('data', data);
+
+  
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  if (data === undefined || data.chats === undefined || !data.chats.length) {
+    return (
+      <View style={{ flexDirection: 'column', flex: 1 }}>
+        <View
+          style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
+        >
+          <Text> No chats for you yet, click to start chatting</Text>
+        </View>
+
+        <FAB
+          navigation={navigation}
+          route={route}
+          color={false}
+          navigateTo='Contact'
+        />
+      </View>
+    );
+  }
+
+  const chats = _.orderBy(
+    data.chats,
+    (o) => {
+      return moment(o.lastMessage?.createdAt).format('YYYY MMM DD, HH:mm:ss');
+    },
+    ['desc']
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -71,7 +112,12 @@ const ChatListScreen = ({ navigation, route }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <FlatListItem item={item} />}
       />
-      <FAB navigation={navigation} route={route} color={false} navigateTo="Contact" />
+      <FAB
+        navigation={navigation}
+        route={route}
+        color={false}
+        navigateTo='Contact'
+      />
     </View>
   );
 };
