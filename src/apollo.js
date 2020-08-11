@@ -5,6 +5,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { split, ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { createUploadLink } from 'apollo-upload-client';
+import * as Keychain from 'react-native-keychain';
 
 const makeApolloClient = () => {
   // create an apollo link instance, a network interface for apollo client
@@ -15,19 +16,20 @@ const makeApolloClient = () => {
   const wsLink = new WebSocketLink({
     uri: `ws://localhost:4000/graphql`,
     options: {
-      reconnect: true,
-      // connectionParams: {
-      //   token: credentials?.password,
-      // },
+      reconnect: true
     },
   });
 
-  const middlewareLink = setContext(() => ({
-    headers: {
-      'x-token': `${credentials?.password}`,
-    },
-  }));
-
+  const authLink =  setContext(async (_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    const token = await Keychain.getGenericPassword();
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        'x-token': token?.password ?  `${token?.password}` : "",
+      }
+    }
+  });
   // using the ability to split links, you can send data to each link
   // depending on what kind of operation is being sent
   const link = split(
@@ -40,7 +42,7 @@ const makeApolloClient = () => {
       );
     },
     wsLink,
-    httpLink
+    authLink.concat(httpLink),
   );
 
   // create an in memory cache instance for caching graphql data

@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
 import FAB from '../Common/FAB';
@@ -71,12 +72,9 @@ const ChatListScreen = ({ navigation, route }) => {
     fetchPolicy: 'catch-and-network',
   });
 
-  console.log('data', data);
-
-  
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch]);
 
   if (data === undefined || data.chats === undefined || !data.chats.length) {
     return (

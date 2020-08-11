@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import * as Keychain from 'react-native-keychain';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -6,6 +6,7 @@ import { MainNavigation, MyTheme } from '../Navigation/Navigation';
 
 import Login from './Login';
 import Welcome from './Welcome';
+import { ActivityIndicator, View } from 'react-native';
 
 const AuthStack = createStackNavigator();
 
@@ -25,20 +26,29 @@ const MainAuthNavigation = () => {
 
   const getToken = async () => {
     const credentials = await Keychain.getGenericPassword();
-    if (credentials.password) {
+
+    if (credentials?.password) {
       setToken(credentials.password);
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!token) {
       getToken();
     }
   }, [token, getToken]);
 
+
+  if (!token) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <ActivityIndicator size='large' color='#00ff00' />
+      </View>
+    );
+  }
   return (
     <React.Fragment>
-      {!token ? <AuthNavigation /> : <MainNavigation />}
+      {token ?  <MainNavigation /> : <AuthNavigation /> }
     </React.Fragment>
   );
 };
