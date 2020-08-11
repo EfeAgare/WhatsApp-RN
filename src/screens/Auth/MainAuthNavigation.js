@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Keychain from 'react-native-keychain';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -32,7 +32,7 @@ const MainAuthNavigation = () => {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!token) {
       getToken();
     }
