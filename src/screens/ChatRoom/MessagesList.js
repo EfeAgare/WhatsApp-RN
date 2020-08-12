@@ -5,8 +5,7 @@ import { makeStyles, List, ListItem, ListItemText } from '@material-ui/core';
 import deleteMessageSubscription from '../../graphQl/subscriptions/deleteMessage.subscription';
 import { useMutation } from '@apollo/react-hooks';
 import deleteMessageMutation from '../../graphQl/mutations/deleteMessage.mutation';
-import { Text, StyleSheet, Dimensions, View } from 'react-native';
-import { messages } from '../../db/db';
+import { Text, StyleSheet,  View } from 'react-native';
 
 const ScrollView = styled.ScrollView`
   flex: 2;
@@ -68,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MessageList = ({ chatId, subscribeToMore }) => {
+const MessageList = ({ messages, chatId, subscribeToMore }) => {
   const classes = useStyles();
   const selfRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
@@ -129,7 +128,7 @@ const MessageList = ({ chatId, subscribeToMore }) => {
     return (
       <React.Fragment>
         <Contents>
-          <Text>{message.content}</Text>
+          <Text style={{fontSize: 16}}>{message.content}</Text>
         </Contents>
         <Timestamp>
           <Text> {moment(message.createdAt).format('LT')}</Text>

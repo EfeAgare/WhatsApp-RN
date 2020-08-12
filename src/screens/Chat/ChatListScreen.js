@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,7 +6,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
 import FAB from '../Common/FAB';
@@ -20,6 +19,7 @@ const ChatListScreen = ({ navigation, route }) => {
 
 
   const FlatListItem = ({ item }) => {
+
     return (
       <TouchableOpacity onPress={() => navigation.navigate("ChatRoomScreen", { chatId: item.id, name: item.name })}>
         <View style={{ flexDirection: 'column', flex: 1 }}>
@@ -52,7 +52,7 @@ const ChatListScreen = ({ navigation, route }) => {
                     size={15}
                     style={{ padding: 0 }}
                   />
-                  <Text style={{ color: 'gray', paddingLeft: 10 }}>
+                  <Text style={{ color: 'gray', paddingLeft: 10, fontSize: 16 }}>
                     {item.lastMessage.content}
                   </Text>
                 </View>

@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import MessagesList from './MesagesList';
-// import ChatRoomNavBar from './ChatRoomNavbar';
+import MessagesList from './MessagesList';
 import MessageInput from './MessageInput';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getChatQuery } from '../../graphQl/queries/chat.query';
 import { addMessageMutation } from '../../graphQl/mutations/addMessage.mutation';
 import { messageAddedSubscription } from '../../graphQl/subscriptions';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 
 const Container = styled.ImageBackground`
   height: 100%;
@@ -18,7 +19,6 @@ const ChatRoomScreen = ({
   },
   navigation,
 }) => {
-
   const { data, loading, subscribeToMore } = useQuery(getChatQuery, {
     variables: { chatId: chatId },
     fetchPolicy: 'cache-and-network',
@@ -99,7 +99,61 @@ const ChatRoomScreen = ({
   if (loadingChat) return null;
   if (chat === null) return null;
 
+  const ContactTitle = ({ name, picture, navigation }) => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          padding: 10,
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+        }}
+      >
+        <View style={{ paddingHorizontal: 10, flex: 1, alignItems: 'center', justifyContent: "center" }}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
+            <Icon
+              name='arrow-left-bold'
+              size={24}
+              type='material-community'
+              color='#FFF'
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{ paddingRight: 10 }}>
+          <Image
+            source={{ uri: `${picture}` }}
+            style={{ width: 40, height: 40, borderRadius: 20 }}
+          />
+        </View>
+        <View style={{ paddingBottom: 2 }}>
+          <Text style={{ color: '#FFF', fontSize: 15, paddingBottom: 5 }}>{name}</Text>
+          <Text style={{ color: '#FFF' }}>online</Text>
+        </View>
+      </View>
+    );
+  };
 
+  if (chat.name) {
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: '#075e54',
+        height: 110,
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        padding: 10,
+      },
+      headerTruncatedBackTitle: '',
+      headerLeft: (props) => (
+        <ContactTitle
+          {...props}
+          name={chat.name}
+          picture={chat.picture}
+          navigation={navigation}
+        />
+      ),
+    });
+  }
   return (
     <Container source={require('../../images/assets/chat-background.jpg')}>
       {chat?.messages && (

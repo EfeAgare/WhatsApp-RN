@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View, TouchableHighlight, Platform } from 'react-native';
 import { StyledButton, styles } from './form-component';
-import AuthSreenBackground from './AuthScreenBackground';
+import AuthScreenBackground from './AuthScreenBackground';
 
 const Welcome = ({ navigation }) => {
   return (
-    <AuthSreenBackground>
+    <AuthScreenBackground>
       <View style={styles.container}>
         <View style={styles.agreementContainer}>
           <View>
@@ -41,7 +41,7 @@ const Welcome = ({ navigation }) => {
           </TouchableHighlight>
         )}
       </View>
-    </AuthSreenBackground>
+    </AuthScreenBackground>
   );
 };
 

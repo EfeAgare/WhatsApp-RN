@@ -103,17 +103,8 @@ function WhatsAppTab() {
   );
 }
 
-const ContactTitle = () => {
-  return (
-    <View style={{ paddingBottom: 0 }}>
-      <Text style={{ color: '#FFF', fontSize: 15 }}>Select Contact</Text>
-      <Text style={{ color: '#FFF' }}>150 contact</Text>
-    </View>
-  );
-};
-
 export const MainNavigation = () => {
-  const state = true;
+
   return (
     <NavigationContainer theme={MyTheme}>
         <Stack.Navigator>
@@ -135,8 +126,7 @@ export const MainNavigation = () => {
               },
               headerTitleStyle: {
                 color: '#fff',
-              },
-              headerTitle: (props) => <ContactTitle {...props} />,
+              }
             }}
           />
           <Stack.Screen

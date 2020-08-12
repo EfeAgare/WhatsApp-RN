@@ -85,6 +85,21 @@ const ContactScreen = ({ route, navigation }) => {
     );
   }
 
+  const ContactTitle = () => {
+    return (
+      <View style={{ paddingBottom: 0 }}>
+        <Text style={{ color: '#FFF', fontSize: 15 }}>Select Contact</Text>
+        <Text style={{ color: '#FFF' }}>{contactData.length} contact</Text>
+      </View>
+    );
+  };
+
+  if (contactData.length) {
+    navigation.setOptions({
+      headerTitle: (props) => <ContactTitle {...props} />,
+    });
+  }
+  
   return (
     <View style={styles.container}>
       <FlatList
