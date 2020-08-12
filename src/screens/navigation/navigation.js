@@ -4,8 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
-import Login from '../Auth/Login';
-import Welcome from '../Auth/Welcome';
 import { Platform, StatusBar, View, Text } from 'react-native';
 import ChatListScreen from '../Chat/ChatListScreen';
 import ChatCameraScreen from '../Camera/ChatCameraScreen';
@@ -16,6 +14,7 @@ import Header from '../Common/Header';
 import StatusInput from '../Status/StatusInput';
 import StatusUpload from '../Status/StatusUpload';
 import StoryScreen from '../Stories/StoryScreen';
+import ChatRoomScreen from '../ChatRoom/ChatRoomScreen';
 
 const Stack = createStackNavigator();
 
@@ -166,6 +165,19 @@ export const MainNavigation = () => {
           <Stack.Screen
             name='StoryScreen'
             component={StoryScreen}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: 'rgb(34, 65, 67), rgb(17, 48, 50)',
+              },
+              headerTitleStyle: {
+                color: '#fff',
+              },
+            }}
+        />
+            <Stack.Screen
+            name='ChatRoomScreen'
+            component={ChatRoomScreen}
             options={{
               title: '',
               headerStyle: {

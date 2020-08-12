@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     right: 30,
     bottom: 70,
     borderRadius: 100 / 2,
-    backgroundColor: '#27eb1e',
+    backgroundColor: '#25d366',
   },
   TouchableOpacityStyleStatus: {
     position: 'absolute',
