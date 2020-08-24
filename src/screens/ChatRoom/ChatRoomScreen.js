@@ -8,6 +8,7 @@ import { addMessageMutation } from '../../graphQl/mutations/addMessage.mutation'
 import { messageAddedSubscription } from '../../graphQl/subscriptions';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { CommonHeader } from '../Common/Header';
 
 const Container = styled.ImageBackground`
   height: 100%;
@@ -54,9 +55,9 @@ const ChatRoomScreen = ({
       unsubscribe = subscribe();
     }
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
+      // if (unsubscribe) {
+      //   unsubscribe();
+      // }
     };
   }, [subscribe]);
 
@@ -103,32 +104,52 @@ const ChatRoomScreen = ({
     return (
       <View
         style={{
-          flex: 1,
           padding: 10,
           flexDirection: 'row',
-          justifyContent: 'flex-start',
+          justifyContent: 'space-between',
+          flexDirection: 'row',
+          alignItems: 'center',
         }}
       >
-        <View style={{ paddingHorizontal: 10, flex: 1, alignItems: 'center', justifyContent: "center" }}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
-            <Icon
-              name='arrow-left-bold'
-              size={24}
-              type='material-community'
-              color='#FFF'
+        <View style={{ flex: 6, flexDirection: 'row', paddingRight: 120 }}>
+          <View
+            style={{
+              paddingHorizontal: 10,
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
+              <Icon
+                name='arrow-left-bold'
+                size={24}
+                type='material-community'
+                color='#FFF'
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingRight: 10 }}>
+            <Image
+              source={{ uri: picture }}
+              style={{ width: 50, height: 50, borderRadius: 25, paddingTop: 2 }}
             />
-          </TouchableOpacity>
+          </View>
+          <View style={{ paddingBottom: 2 }}>
+            <Text
+              style={{
+                color: '#FFF',
+                fontSize: 20,
+                paddingBottom: 3,
+                fontWeight: 'bold',
+              }}
+            >
+              {name}
+            </Text>
+            <Text style={{ color: '#FFF' }}>online</Text>
+          </View>
         </View>
-        <View style={{ paddingRight: 10 }}>
-          <Image
-            source={{ uri: `${picture}` }}
-            style={{ width: 40, height: 40, borderRadius: 20 }}
-          />
-        </View>
-        <View style={{ paddingBottom: 2 }}>
-          <Text style={{ color: '#FFF', fontSize: 15, paddingBottom: 5 }}>{name}</Text>
-          <Text style={{ color: '#FFF' }}>online</Text>
-        </View>
+        <CommonHeader show={true} />
       </View>
     );
   };

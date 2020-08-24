@@ -153,7 +153,7 @@ const MessageList = ({ messages, chatId, subscribeToMore }) => {
   };
   return (
     <ScrollView ref={selfRef}>
-      {messages.map((message) => message.isMine ?
+      {messages.map((message) => !message.isMine ?
 
         <View
           key={message.id}

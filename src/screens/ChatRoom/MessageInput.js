@@ -21,7 +21,6 @@ const MessageInput = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
 
   const onKeyPress = (e) => {
-    console.log("efefefe")
     if (e.charCode === 13) {
       submitMessage();
     }
@@ -56,7 +55,7 @@ const MessageInput = ({ onSendMessage }) => {
       />
       <TouchableOpacity
         style={styles.TouchableOpacityStyle}
-        onPress={() => submitMessage}
+        onPress={() => submitMessage()}
       >
         {!message ? (
           <Icon
@@ -84,7 +83,7 @@ export default MessageInput;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.2,
+    flex: 0.24,
   },
   TouchableOpacityStyle: {
     position: 'absolute',
