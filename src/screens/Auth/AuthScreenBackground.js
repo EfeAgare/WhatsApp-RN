@@ -25,7 +25,7 @@ const AuthSreenBackground = (props) => {
   return (
     <Container>
       <LinearGradient
-        colors={['rgb(34, 65, 67)', 'rgb(17, 48, 50)']}
+        colors={['#075e54']}
         start={[0.1, 0.1]}
         style={styles.linearGradient}
       >

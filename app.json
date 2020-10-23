@@ -2,11 +2,7 @@
   "expo": {
     "name": "whats-app",
     "slug": "whats-app",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,11 +14,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "ios"
+    },
+    "android": {
+      "package": "com.example.whatsapp"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
   }
 }
