@@ -51,9 +51,21 @@ target 'whatsapp' do
   # react-native-cli autolinking
   use_native_modules!
 
-  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
-  pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
-  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
 
+end
+
+post_install do |installer|
+  puts 'Determining pod project minimal deployment target'
+  pods_project = installer.pods_project
+  deployment_target_key = 'IPHONEOS_DEPLOYMENT_TARGET'
+  deployment_targets = pods_project.build_configurations.map{ |config| config.build_settings[deployment_target_key] }
+  minimal_deployment_target = deployment_targets.min_by{ |version| Gem::Version.new(version) }
+  puts 'Minimal deployment target is ' + minimal_deployment_target
+  puts 'Setting each pod deployment target to ' + minimal_deployment_target
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings[deployment_target_key] = minimal_deployment_target['DEBUG=1']
+    end
+  end
 end

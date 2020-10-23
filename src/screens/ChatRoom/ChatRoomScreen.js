@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import MessagesList from './MessagesList';
 import MessageInput from './MessageInput';
+
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { getChatQuery } from '../../graphQl/queries/chat.query';
 import { addMessageMutation } from '../../graphQl/mutations/addMessage.mutation';
@@ -26,7 +27,7 @@ const ChatRoomScreen = ({
   });
 
   const subscribe = useCallback(() => {
-    subscribeToMore({
+    return subscribeToMore({
       document: messageAddedSubscription,
 
       updateQuery: (prev, { subscriptionData }) => {
@@ -46,19 +47,11 @@ const ChatRoomScreen = ({
         };
       },
     });
-  }, [subscribeToMore, chatId]);
+  }, [subscribeToMore, chatId, messageAddedSubscription]);
 
   useEffect(() => {
-    let unsubscribe;
-
-    if (!unsubscribe) {
-      unsubscribe = subscribe();
-    }
-    return () => {
-      // if (unsubscribe) {
-      //   unsubscribe();
-      // }
-    };
+    subscribe();
+    return () => {};
   }, [subscribe]);
 
   const [addMessage] = useMutation(addMessageMutation);
@@ -70,6 +63,7 @@ const ChatRoomScreen = ({
       }
       const chat = data.chat;
       if (chat === null) return null;
+
       addMessage({
         variables: { chatId: chatId, content },
         optimisticResponse: {
@@ -175,6 +169,13 @@ const ChatRoomScreen = ({
       ),
     });
   }
+
+  // useEffect(() => {
+  //   return () => {};
+  // }, []);
+
+  const ref1 = React.createRef();
+
   return (
     <Container source={require('../../images/assets/chat-background.jpg')}>
       {chat?.messages && (
@@ -182,9 +183,12 @@ const ChatRoomScreen = ({
           messages={chat.messages}
           chatId={chatId}
           subscribeToMore={subscribeToMore}
+          onSendMessage={onSendMessage}
+          setRef={ref1}
         />
       )}
-      <MessageInput onSendMessage={onSendMessage} />
+
+      {/* <MessageInput onSendMessage={onSendMessage} /> */}
     </Container>
   );
 };

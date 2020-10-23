@@ -10,6 +10,7 @@ import {
 
 import { WHATSAPP_CONTACTS_API } from '../../db/api';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const FlatListItem = ({ person }) => {
   return (
@@ -99,8 +100,8 @@ const ContactScreen = ({ route, navigation }) => {
       headerTitle: (props) => <ContactTitle {...props} />,
     });
   }
-  
   return (
+    <ScrollView showsVerticalScrollIndicator={false}>
     <View style={styles.container}>
       <FlatList
         data={contactData}
@@ -108,6 +109,7 @@ const ContactScreen = ({ route, navigation }) => {
         renderItem={({ item }) => <FlatListItem person={item} route={route} />}
       />
     </View>
+      </ScrollView>
   );
 };
 

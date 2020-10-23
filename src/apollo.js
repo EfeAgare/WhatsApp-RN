@@ -16,19 +16,23 @@ const makeApolloClient = () => {
   const wsLink = new WebSocketLink({
     uri: `ws://localhost:4000/graphql`,
     options: {
-      reconnect: true
+      reconnect: true,
+      connectionParams: async () => {
+        const token = await Keychain.getGenericPassword();
+        return { token: token?.password ? `${token?.password}` : '' };
+      },
     },
   });
 
-  const authLink =  setContext(async (_, { headers }) => {
+  const authLink = setContext(async (_, { headers }) => {
     // get the authentication token from local storage if it exists
     const token = await Keychain.getGenericPassword();
     // return the headers to the context so httpLink can read them
     return {
       headers: {
-        'x-token': token?.password ?  `${token?.password}` : "",
-      }
-    }
+        'x-token': token?.password ? `${token?.password}` : '',
+      },
+    };
   });
   // using the ability to split links, you can send data to each link
   // depending on what kind of operation is being sent
@@ -42,7 +46,7 @@ const makeApolloClient = () => {
       );
     },
     wsLink,
-    authLink.concat(httpLink),
+    authLink.concat(httpLink)
   );
 
   // create an in memory cache instance for caching graphql data

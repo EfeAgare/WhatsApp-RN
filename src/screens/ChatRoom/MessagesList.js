@@ -5,8 +5,14 @@ import { makeStyles, List, ListItem, ListItemText } from '@material-ui/core';
 import deleteMessageSubscription from '../../graphQl/subscriptions/deleteMessage.subscription';
 import { useMutation } from '@apollo/react-hooks';
 import deleteMessageMutation from '../../graphQl/mutations/deleteMessage.mutation';
-import { Text, StyleSheet,  View } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ReactNative, { Dimensions } from 'react-native';
+import { useHeaderHeight } from '@react-navigation/stack';
+import { NativeModules } from 'react-native';
+import MessageInput from './MessageInput';
 
+const { width, height } = Dimensions.get('window');
 const ScrollView = styled.ScrollView`
   flex: 2;
   padding: 0 15px;
@@ -67,11 +73,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MessageList = ({ messages, chatId, subscribeToMore }) => {
+const ScrollViewManager = NativeModules.ScrollViewManager;
+
+const MessageList = ({ messages, chatId, subscribeToMore, onSendMessage }) => {
   const classes = useStyles();
-  const selfRef = useRef(null);
+  const setRef = useRef(null);
+  const inputRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
   const [messageId, setMessageId] = useState(null);
+  const [contentHeight, setContentHeight] = useState(null);
+  const [contentHeightWithKeys, setContentHeightWithKeys] = useState(null);
 
   const handleSelect = (id) => {
     setOpenModal(!openModal);
@@ -111,24 +122,58 @@ const MessageList = ({ messages, chatId, subscribeToMore }) => {
     [subscribeToMore, chatId]
   );
 
-  useEffect(() => {
-    if (!selfRef.current) return;
+  const scrollToInput = () => {
+    const scrollResponder = this.refs.myScrollView.getScrollResponder();
+    const inputHandle = React.findNodeHandle(this.refs.myInput);
 
-    messageDeleteSubscription(messageId);
-    selfRef.current.scrollTo({
-      x: messages.length,
-      y: messages.length,
+    scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+      inputHandle, // The TextInput node handle
+      0, // The scroll view's bottom "contentInset" (default 0)
+      true // Prevent negative scrolling
+    );
+  };
+
+  useEffect(() => {
+    if (!setRef.current) return;
+
+    ScrollViewManager.getContentSize(
+      ReactNative.findNodeHandle(setRef.current),
+      (contentSize) => {
+        // const height = Integer.parse()
+        setContentHeight(
+          contentSize.height * 2 + contentSize.width + +contentHeightWithKeys
+        );
+        console.log(contentSize);
+      }
+    );
+
+    console.log('+ contentHeightWithKeys', contentHeightWithKeys);
+
+    console.log('+ contentHeight ', contentHeight);
+    console.log(
+      'contentHeight + height + contentHeightWithKeys',
+      contentHeight + height + contentHeightWithKeys
+    );
+    setRef.current.scrollTo({
+      x: 0,
+      y: contentHeight + contentHeightWithKeys,
       animated: true,
     });
 
     return () => {};
-  }, [messages.length, messageDeleteSubscription, messageId]);
+  }, [
+    setRef.current,
+    messageDeleteSubscription,
+    messageId,
+    ScrollViewManager.getContentSize,
+    contentHeightWithKeys,
+  ]);
 
   const DisplayMessageList = ({ message }) => {
     return (
       <React.Fragment>
         <Contents>
-          <Text style={{fontSize: 16}}>{message.content}</Text>
+          <Text style={{ fontSize: 16 }}>{message.content}</Text>
         </Contents>
         <Timestamp>
           <Text> {moment(message.createdAt).format('LT')}</Text>
@@ -152,28 +197,53 @@ const MessageList = ({ messages, chatId, subscribeToMore }) => {
     );
   };
   return (
-    <ScrollView ref={selfRef}>
-      {messages.map((message) => !message.isMine ?
-
-        <View
-          key={message.id}
-          style={styles.yoursContainer}
+    <React.Fragment>
+      <ScrollView
+        ref={setRef}
+        contentInset={{
+          bottom: 10,
+        }}
+        onContentSizeChange={(contentWidth, contentHeight) => {
+          setContentHeight((contentHeight + contentWidth) * 2);
+        }}
+        maintainVisibleContentPosition={{
+          minIndexForVisible: 1,
+          autoscrollToTopThreshold: contentHeightWithKeys,
+        }}
+        keyboardShouldPersistTaps='always'
+      >
+        <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          automaticallyAdjustContentInsets={false}
+          showsVerticalScrollIndicator={false}
+          // scrollEnabled={false}
+           
         >
-          <DisplayMessageList message={message} />
-        </View> : <View
-          key={message.id}
-          style={styles.container}
-        >
-          <DisplayMessageList message={message} />
-        </View>
-      )}
-    </ScrollView>
+          {messages.map((message) =>
+            !message.isMine ? (
+              <View key={message.id} style={styles.yoursContainer}>
+                <DisplayMessageList message={message} />
+              </View>
+            ) : (
+              <View key={message.id} style={styles.container}>
+                <DisplayMessageList message={message} />
+              </View>
+            )
+          )}
+        </KeyboardAwareScrollView>
+      </ScrollView>
+      <MessageInput
+        onSendMessage={onSendMessage}
+        setContentHeightWithKeys={setContentHeightWithKeys}
+      />
+    </React.Fragment>
   );
 };
 
 export default MessageList;
 
-const  commonStyle =  {
+const commonStyle = {
   marginTop: 5,
   marginBottom: 5,
   padding: 20,
@@ -188,25 +258,25 @@ const  commonStyle =  {
   shadowRadius: 2.22,
 
   elevation: 3,
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    width: "80%",
+    width: '80%',
     flex: 1,
     position: 'relative',
     left: 75,
     backgroundColor: '#dcf8c6',
-    ...commonStyle
+    ...commonStyle,
   },
   yoursContainer: {
     flexDirection: 'row',
     flex: 1,
-    width: "80%",
+    width: '80%',
     justifyContent: 'flex-start',
     backgroundColor: '#FFFF',
-    ...commonStyle
-  }
+    ...commonStyle,
+  },
 });
